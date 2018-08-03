@@ -1,3 +1,4 @@
+import logging
 import redis
 
 class Config():
@@ -13,4 +14,20 @@ class Config():
     SESSION_USE_SIGNER = True
     SESSION_REDIS = redis.StrictRedis(host=REDIS_HOST, port=REDIS_PORT)
     PERMANENT_SESSION_LIFEIME = 86400
+    level = logging.DEBUG
 
+class DevelopmentConfig(Config):
+    DEBUG =  True
+
+class ProductionConfig(Config):
+    DEBUG =  False
+    level = logging.WARNING
+class TestingConfig(Config):
+    DEBUG =  True
+    TESTING =  True
+
+cfg = {
+    '1':DevelopmentConfig,
+    '2':ProductionConfig,
+    '3':TestingConfig
+}
